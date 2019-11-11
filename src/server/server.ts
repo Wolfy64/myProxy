@@ -4,6 +4,7 @@ import https from 'https'
 import httpProxy from 'http-proxy'
 import path from 'path'
 import cookieParser from 'cookie-parser'
+import pm2 from 'pm2'
 
 import { adminRouter } from '../admin/index'
 import { apiRouter } from '../api/index'
@@ -87,6 +88,17 @@ const startProxyServer = (): void => {
     }
   })
   server.listen(443)
+
+  pm2.list((err, processDescriptionList) => {
+    if (err) console.log('pm2 Err', err)
+    console.log('pm2 Err', err)
+    console.log('processDescriptionList', processDescriptionList)
+  })
+
+  pm2.describe(0, (err, processDescription) => {
+    console.log('err', err)
+    console.log('processDescription', processDescription)
+  })
 
   const httpApp = express()
   httpApp.get('/*', (req, res) => {
